@@ -61,19 +61,7 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     environment: Development
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-
-          - task: AzureWebApp@1
-            displayName: 'Deploy App Service'
-            inputs:
-              azureSubscription: 'Inform-your-subscription'
-              appType: 'webAppLinux'
-              appName: 'angularwithazure'
-              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              runtimeStack: 'NODE|16-lts'
+              
 
 - stage: Acceptance
   dependsOn: [ Development ]
