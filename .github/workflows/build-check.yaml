@@ -26,7 +26,7 @@ jobs:
         run: npm install
 
       - name: Build the Angular app
-        run: npm run build -- --prod  # Replace with your build command
+        run: ng build
 
       - name: Run Unit Tests
         run: npm run test -- --watch=false --no-progress --browsers=ChromeHeadless
