@@ -6,7 +6,7 @@ on:
       - feature/*  # Trigger on push to any feature branch
 
 jobs:
-  Build_Check:
+  Build-Check:
     runs-on: ubuntu-latest
     
     steps:
@@ -20,11 +20,12 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
 
-      - name: Build the Angular app
+      - name: Build
         run: npm run build -- --prod  # Replace with your build command
 
-      - name: Run Unit Tests
+      - name: Unit Tests
         run: npm run test -- --watch=false --no-progress --browsers=ChromeHeadless
 
       - name: Get commit SHA
