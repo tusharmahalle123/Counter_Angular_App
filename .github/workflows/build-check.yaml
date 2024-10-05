@@ -1,0 +1,35 @@
+name: Build Check
+
+on:
+  push:
+    branches:
+      - feature/*  # Trigger on push to any feature branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get commit SHA
+        id: vars
+        run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV  # Get the first 7 characters of the commit SHA
+
+      - name: Build Docker image
+        run: |
+          IMAGE_NAME="submission.myimages:${{ env.COMMIT_SHA }}"
+          docker build -t $IMAGE_NAME .
+
+      - name: Unit Test
+        run: |
+          IMAGE_NAME="submission.myimages:${{ env.COMMIT_SHA }}"
+          docker run --rm $IMAGE_NAME ng test --watch=false --browsers=ChromeHeadless
+
+      - name: Tidy Up
+        run: |
+          # Remove Docker images
+          docker rmi submission.myimages:${{ env.COMMIT_SHA }} || true
+          # Remove dangling images
+          docker image prune -f
