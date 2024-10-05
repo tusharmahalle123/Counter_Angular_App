@@ -20,7 +20,7 @@ COPY . .
 ENV NODE_OPTIONS=--openssl-legacy-provider
 
 # Run unit tests
-RUN npm run test -- --watch=false --browsers=ChromeHeadless --no-sandbox
+RUN npm run test -- --watch=false --browsers=ChromeHeadless
 
 # Expose port 8080
 EXPOSE 8080
