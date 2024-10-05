@@ -25,7 +25,7 @@ jobs:
       - name: Unit Test
         run: |
           IMAGE_NAME="submission.myimages:${{ env.COMMIT_SHA }}"
-          docker run --rm $IMAGE_NAME ng test --watch=false --browsers=ChromeHeadless
+          docker run --rm $IMAGE_NAME ng test --watch=false --browsers=NoBrowser
 
       - name: Tidy Up
         run: |
