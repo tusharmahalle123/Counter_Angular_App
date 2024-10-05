@@ -6,12 +6,26 @@ on:
       - feature/*  # Trigger on push to any feature branch
 
 jobs:
-  Build:
+  Build_Check:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'  # Set to the version you want to use
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the Angular app
+        run: npm run build -- --prod  # Replace with your build command
+
+      - name: Run Unit Tests
+        run: npm run test -- --watch=false --no-progress --browsers=ChromeHeadless
 
       - name: Get commit SHA
         id: vars
@@ -21,9 +35,6 @@ jobs:
         run: |
           IMAGE_NAME="submission.myimages:${{ env.COMMIT_SHA }}"
           docker build -t $IMAGE_NAME .
-          
-      - name: Run Unit Tests
-        run: npm run test -- --watch=false --no-progress --browsers=ChromeHeadless
           
       - name: Tidy Up
         run: |
