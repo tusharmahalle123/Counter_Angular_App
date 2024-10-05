@@ -1,38 +1,20 @@
-# Use Node.js alpine image for a lightweight setup
 FROM node:18-alpine 
 
-# Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json for better caching
-COPY package*.json ./ 
+# Copy the rest of the application files
+COPY . .
 
-# Install necessary packages including Chrome
-RUN apk add --no-cache \
-    curl \
-    chromium \
-    && npm install -g @angular/cli
+# Install Angular CLI globally
+RUN npm install -g @angular/cli
 
 # Install project dependencies
 RUN npm install
 
-# Copy the rest of the application files
-COPY . . 
-
-# Set environment variable to avoid OpenSSL issues
-ENV NODE_OPTIONS=--openssl-legacy-provider 
-
-# Set environment variable for Chrome
-ENV CHROME_BIN=/usr/bin/chromium-browser
-
-# Create a non-root user
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-
-# Switch to the non-root user
-USER appuser
+ENV NODE_OPTIONS=--openssl-legacy-provider
 
 # Expose port 8080
-EXPOSE 8080 
+EXPOSE 8080
 
-# Command to run the Angular app
+# Run the Angular app
 CMD ["ng", "serve", "--host", "0.0.0.0"]

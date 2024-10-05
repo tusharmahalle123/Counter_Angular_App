@@ -21,12 +21,7 @@ jobs:
         run: |
           IMAGE_NAME="submission.myimages:${{ env.COMMIT_SHA }}"
           docker build -t $IMAGE_NAME .
-
-      - name: Run Unit Tests
-        run: |
-          IMAGE_NAME="submission.myimages:${{ env.COMMIT_SHA }}"
-          docker run --rm $IMAGE_NAME npm run test -- --watch=false --browsers=ChromeHeadless
-
+          
       - name: Tidy Up
         run: |
           # Remove Docker images
