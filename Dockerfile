@@ -1,8 +1,14 @@
 # Use the official Node.js Alpine image
 FROM node:18-alpine
 
-# Install Chromium
-RUN apk add --no-cache chromium
+# Install Chromium for headless browser tests
+RUN apk add --no-cache chromium nss freetype harfbuzz \
+    && rm -rf /var/cache/* \
+    && mkdir /var/cache/apk
+
+# Set CHROME_BIN and add --no-sandbox to avoid permission errors
+ENV CHROME_BIN=/usr/bin/chromium-browser
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 # Set the working directory
 WORKDIR /usr/src/app
@@ -19,15 +25,8 @@ RUN npm install
 # Copy the rest of the application files
 COPY . .
 
-# Create a non-root user and switch to it
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
-
 # Set environment variable for OpenSSL
 ENV NODE_OPTIONS=--openssl-legacy-provider
-
-# Set Chrome as the default browser for Karma
-ENV CHROME_BIN=/usr/bin/chromium-browser
 
 # Expose port 8080
 EXPOSE 8080
