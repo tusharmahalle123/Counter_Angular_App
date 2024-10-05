@@ -17,14 +17,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18'  # Set to the version you want to use
-          
+
       - run: echo "export NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: npm install
 
       - name: Build the Angular app
-        run: npm build
+        run: npm run build
 
       - name: Run Unit Tests
         run: npm run test -- --watch=false --no-progress --browsers=ChromeHeadless
