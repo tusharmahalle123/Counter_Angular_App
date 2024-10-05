@@ -18,14 +18,17 @@ jobs:
         with:
           node-version: '18'  # Set to the version you want to use
 
+      - name: Set NODE_OPTIONS quietly
+        if: false  # This prevents the step from running and being visible in logs
+        run: echo "export NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: npm install
-        run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
 
-      - name: Build
+      - name: Build the Angular app
         run: npm run build -- --prod  # Replace with your build command
 
-      - name: Unit Tests
+      - name: Run Unit Tests
         run: npm run test -- --watch=false --no-progress --browsers=ChromeHeadless
 
       - name: Get commit SHA
