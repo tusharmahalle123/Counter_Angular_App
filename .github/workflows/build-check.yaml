@@ -25,7 +25,7 @@ jobs:
       - name: Run Unit Tests
         run: |
           IMAGE_NAME="submission.myimages:${{ env.COMMIT_SHA }}"
-          docker run --rm $IMAGE_NAME npm run test -- --watch=false --browsers=ChromeHeadless --no-sandbox
+          docker run --rm $IMAGE_NAME npm run test -- --watch=false --browsers=ChromeHeadless
 
       - name: Tidy Up
         run: |
