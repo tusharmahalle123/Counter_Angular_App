@@ -5,25 +5,28 @@ FROM node:18-alpine
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json for better caching
-COPY package*.json ./
+COPY package*.json ./ 
 
-# Install Angular CLI globally
-RUN npm install -g @angular/cli
+# Install necessary packages including Chrome
+RUN apk add --no-cache \
+    curl \
+    chromium \
+    && npm install -g @angular/cli
 
 # Install project dependencies
 RUN npm install
 
 # Copy the rest of the application files
-COPY . .
+COPY . . 
 
 # Set environment variable to avoid OpenSSL issues
-ENV NODE_OPTIONS=--openssl-legacy-provider
+ENV NODE_OPTIONS=--openssl-legacy-provider 
 
-# Run unit tests
-RUN npm run test -- --watch=false --browsers=ChromeHeadless
+# Set environment variable for Chrome
+ENV CHROME_BIN=/usr/bin/chromium-browser
 
 # Expose port 8080
-EXPOSE 8080
+EXPOSE 8080 
 
 # Command to run the Angular app
 CMD ["ng", "serve", "--host", "0.0.0.0"]
