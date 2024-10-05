@@ -25,6 +25,10 @@ RUN npm install
 # Copy the rest of the application files
 COPY . .
 
+# Create a non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
 # Set environment variable for OpenSSL
 ENV NODE_OPTIONS=--openssl-legacy-provider
 
