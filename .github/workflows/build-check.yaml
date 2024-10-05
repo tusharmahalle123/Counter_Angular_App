@@ -18,8 +18,6 @@ jobs:
         with:
           node-version: '16'  # Set to the version you want to use
 
-      - run: echo "export NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
-
       - name: Install dependencies
         run: npm install
 
