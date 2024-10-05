@@ -25,6 +25,12 @@ ENV NODE_OPTIONS=--openssl-legacy-provider
 # Set environment variable for Chrome
 ENV CHROME_BIN=/usr/bin/chromium-browser
 
+# Create a non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Switch to the non-root user
+USER appuser
+
 # Expose port 8080
 EXPOSE 8080 
 
