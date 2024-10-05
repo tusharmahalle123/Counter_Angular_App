@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'  # Set to the version you want to use
+          node-version: '16'  # Set to the version you want to use
 
       - run: echo "export NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
 
