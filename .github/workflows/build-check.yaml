@@ -13,21 +13,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Set to the version you want to use
+
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: |
-          NODE_OPTIONS=--openssl-legacy-provider npm run build
+      - name: Build the Angular app
+        run: npm run build
 
-      - name: Unit Tests
+      - name: Run Unit Tests
         run: npm run test -- --watch=false --no-progress --browsers=ChromeHeadless
 
       - name: Get commit SHA
         id: vars
         run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV  # Get the first 7 characters of the commit SHA
 
-      - name: Build Image
+      - name: Build Docker image
         run: |
           IMAGE_NAME="submission.myimages:${{ env.COMMIT_SHA }}"
           docker build -t $IMAGE_NAME .
