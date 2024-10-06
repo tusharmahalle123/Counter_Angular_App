@@ -14,8 +14,6 @@ COPY . .
 # Install Angular CLI globally
 RUN npm install -g @angular/cli
 
-ENV NODE_OPTIONS=--openssl-legacy-provider
-
 # Expose port 8080
 EXPOSE 8080
 
