@@ -10,6 +10,13 @@ on:
       - development # Trigger on PR to development branch
       - master     # Trigger on PR to master branch
 
+workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Check build status'
+        required: true
+        type: string
+
 jobs:
   Build-Check:
     runs-on: ubuntu-latest
