@@ -1,5 +1,7 @@
 # CounterApp
 
+Note - This branch is having node version declared explicitly inside workflow file, which is se to to version 18, but if I remove it build will start failing for openSSL issue, to use lower version of node.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
 
 ## Development server
@@ -25,3 +27,5 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice.
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
