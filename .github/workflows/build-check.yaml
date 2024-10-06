@@ -9,7 +9,6 @@ on:
     branches:
       - development # Trigger on PR to development branch
       - master     # Trigger on PR to master branch
-
 jobs:
   Build-Check:
     runs-on: ubuntu-latest
