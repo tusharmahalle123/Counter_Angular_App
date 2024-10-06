@@ -8,11 +8,10 @@ on:
   pull_request:
     branches:
       - development  # Trigger on PR to development branch
-      - master       # Trigger on PR to master branch
+      
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Check build status'
         required: true
         default: development
         type: string
