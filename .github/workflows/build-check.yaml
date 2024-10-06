@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - feature/*  # Trigger on push to any feature branch
+      - development
   pull_request:
     branches:
-      - dev
+      - development
       - master
 jobs:
   Build-Check:
