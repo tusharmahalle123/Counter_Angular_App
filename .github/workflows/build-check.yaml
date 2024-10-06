@@ -12,7 +12,6 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Check build status'
         required: true
         default: development
         type: string
