@@ -1,6 +1,9 @@
 # CounterApp
 
-Note - This branch is having node version declared explicitly inside workflow file, which is se to to version 18, but if I remove it build will start failing for openSSL issue, to use lower version of node.
+Note - This branch resolve the issue for OpenSSL caused due to node version by using below commands. 
+        NODE_OPTIONS=--openssl-legacy-provider npm run build
+        NODE_OPTIONS=--openssl-legacy-provider npm run test -- --watch=false --no-progress --browsers=ChromeHeadless
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
 
