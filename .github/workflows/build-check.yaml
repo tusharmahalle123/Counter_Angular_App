@@ -4,11 +4,12 @@ on:
   push:
     branches:
       - feature/*  # Trigger on push to any feature branch
-      - development
+      - development  # Trigger on push to development branch
   pull_request:
     branches:
-      - development
-      - master
+      - development # Trigger on PR to development branch
+      - master     # Trigger on PR to master branch
+
 jobs:
   Build-Check:
     runs-on: ubuntu-latest
