@@ -44,13 +44,13 @@ jobs:
       - name: Build Docker image
         run: |
           IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/submission:${{ env.COMMIT_SHA }}"
-          docker build -t $IMAGE_NAME .
+          docker build -t $IMAGE_NAME -f ./path/to/Dockerfile .
 
       # Save the Docker image as an artifact if needed
       - name: Save Docker image as artifact
         run: |
           docker save -o my_image.tar $IMAGE_NAME
-        uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v3
         with:
           name: built-image
           path: my_image.tar
