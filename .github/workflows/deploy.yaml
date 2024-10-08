@@ -1,0 +1,48 @@
+name: Build and Push to ECR
+
+on:
+  push:
+    branches:
+      - release/*
+      - development
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Run Unit Tests
+        run: npm run test -- --watch=false --no-progress --browsers=ChromeHeadless
+
+      - name: Get commit SHA
+        id: vars
+        run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build Docker image
+        run: |
+          IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/submission:${{ env.COMMIT_SHA }}"
+          docker build -t $IMAGE_NAME .
+      
+      - name: Push Docker image to ECR
+        run: |
+          IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/submission:${{ env.COMMIT_SHA }}"
+          docker push $IMAGE_NAME
+
