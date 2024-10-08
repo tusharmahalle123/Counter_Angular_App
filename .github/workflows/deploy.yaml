@@ -7,7 +7,7 @@ on:
       - development
 
 jobs:
-  build-and-push:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +27,11 @@ jobs:
 
       - name: Run Unit Tests
         run: npm run test -- --watch=false --no-progress --browsers=ChromeHeadless
+  push:
+    needs: build  # This ensures the push job runs after the build job
+    runs-on: ubuntu-latest
 
+    steps:
       - name: Get commit SHA
         id: vars
         run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
@@ -35,6 +39,8 @@ jobs:
       - name: Log in to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
+        with:
+          region: ${{ secrets.AWS_REGION }}  # Add the region here
 
       - name: Build Docker image
         run: |
@@ -45,4 +51,3 @@ jobs:
         run: |
           IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/submission:${{ env.COMMIT_SHA }}"
           docker push $IMAGE_NAME
-
