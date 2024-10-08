@@ -49,6 +49,7 @@ jobs:
       # Save the Docker image as an artifact if needed
       - name: Save Docker image as artifact
         run: |
+          echo "Saving Docker image: $IMAGE_NAME"
           docker save -o my_image.tar $IMAGE_NAME
       - uses: actions/upload-artifact@v3
         with:
