@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - feature/*  # Trigger on push to any feature branch
-      - development  # Trigger on push to development branch
   pull_request:
     branches:
       - development  # Trigger on PR to development branch
