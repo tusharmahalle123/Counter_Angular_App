@@ -43,7 +43,7 @@ jobs:
       # Build Docker image
       - name: Build Docker image
         run: |
-          IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/submission:${{ env.COMMIT_SHA }}"
+          IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/build-images/my-images:${{ env.COMMIT_SHA }}"
           docker build -t $IMAGE_NAME -f ./path/to/Dockerfile .
 
       # Save the Docker image as an artifact if needed
@@ -79,5 +79,5 @@ jobs:
 
       - name: Push Docker image to ECR
         run: |
-          IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/submission:${{ env.COMMIT_SHA }}"
+          IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/build-images/my-images:${{ env.COMMIT_SHA }}"
           docker push $IMAGE_NAME
