@@ -56,6 +56,10 @@ jobs:
           name: built-image
           path: my_image.tar
 
+      # Output the commit SHA for use in the next job
+      - name: Set output
+        run: echo "::set-output name=COMMIT_SHA::${{ env.COMMIT_SHA }}"
+
   push:
     needs: build
     runs-on: ubuntu-latest
