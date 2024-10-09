@@ -32,7 +32,7 @@ jobs:
         id: vars
         run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
 
-      # Configure AWS credentials here
+      # Configure AWS credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -46,10 +46,10 @@ jobs:
           IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/build-images/my-images:${{ env.COMMIT_SHA }}"
           docker build -t $IMAGE_NAME .
 
-      # Save the Docker image as an artifact if needed
+      # Save the Docker image as an artifact
       - name: Save Docker image as artifact
         run: |
-          echo "Saving Docker image: $IMAGE_NAME"
+          IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/build-images/my-images:${{ env.COMMIT_SHA }}"
           docker save -o my_image.tar $IMAGE_NAME
       - uses: actions/upload-artifact@v3
         with:
@@ -57,7 +57,7 @@ jobs:
           path: my_image.tar
 
   push:
-    needs: build  # Ensures the push job runs after the build job
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
@@ -66,7 +66,7 @@ jobs:
         with:
           name: built-image
 
-      # Configure AWS credentials again since this is a different job
+      # Configure AWS credentials again
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -78,7 +78,8 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Push Docker image to ECR
+      - name: Load and Push Docker image to ECR
         run: |
           IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/build-images/my-images:${{ env.COMMIT_SHA }}"
+          docker load -i my_image.tar
           docker push $IMAGE_NAME
