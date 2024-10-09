@@ -56,9 +56,9 @@ jobs:
           name: built-image
           path: my_image.tar
 
-      # Output the commit SHA for use in the next job
-      - name: Set output
-        run: echo "::set-output name=COMMIT_SHA::${{ env.COMMIT_SHA }}"
+      # Write the COMMIT_SHA to the GITHUB_OUTPUT environment file
+      - name: Set commit SHA output
+        run: echo "COMMIT_SHA=${{ env.COMMIT_SHA }}" >> $GITHUB_OUTPUT
 
   push:
     needs: build
