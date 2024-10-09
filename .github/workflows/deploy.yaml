@@ -43,12 +43,13 @@ jobs:
       # Build Docker image
       - name: Build Docker image
         run: |
-          IMAGE_NAME="submission-angular-app:${{ env.COMMIT_SHA }}"
+          IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/build-images/my-images"
           docker build -t $IMAGE_NAME .
 
       # Save the Docker image as an artifact if needed
       - name: Save Docker image as artifact
         run: |
+          echo "Saving Docker image: $IMAGE_NAME"
           docker save -o my_image.tar $IMAGE_NAME
       - uses: actions/upload-artifact@v3
         with:
