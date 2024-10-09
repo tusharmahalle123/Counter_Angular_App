@@ -56,10 +56,6 @@ jobs:
           name: built-image
           path: my_image.tar
 
-      # Write the COMMIT_SHA to the GITHUB_OUTPUT environment file
-      - name: Set commit SHA output
-        run: echo "COMMIT_SHA=${{ env.COMMIT_SHA }}" >> $GITHUB_OUTPUT
-
   push:
     needs: build
     runs-on: ubuntu-latest
@@ -77,6 +73,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Get commit SHA
+        id: vars
+        run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
 
       - name: Log in to Amazon ECR
         id: login-ecr
