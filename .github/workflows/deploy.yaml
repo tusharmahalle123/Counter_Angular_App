@@ -43,7 +43,7 @@ jobs:
       # Build Docker image
       - name: Build Docker image
         run: |
-          IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/build-images/my-images"
+          IMAGE_NAME="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/build-images/my-images:${{ env.COMMIT_SHA }}"
           docker build -t $IMAGE_NAME .
 
       # Save the Docker image as an artifact if needed
