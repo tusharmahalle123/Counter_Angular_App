@@ -11,6 +11,9 @@ RUN npm install
 # Copy the rest of the application files
 COPY . .
 
+# Set node option as env var, you can enable OpenSSL's legacy provider, which should allow older cryptographic algorithms
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 # Install Angular CLI globally
 RUN npm install -g @angular/cli
 

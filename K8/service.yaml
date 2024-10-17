@@ -1,0 +1,14 @@
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: angular-counter-service
+  namespace: tush-dev-namespace
+spec:
+  selector:
+    app: angular-counter-app
+  ports:
+  - protocol: TCP
+    port: 80       # External port for accessing the app
+    targetPort: 4200  # Port where the app is running inside the container
+  type: NodePort

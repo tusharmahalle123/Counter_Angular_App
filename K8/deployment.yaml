@@ -1,0 +1,21 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-counter-app
+  namespace: tush-dev-namespace
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: angular-counter-app
+  template:
+    metadata:
+      labels:
+        app: angular-counter-app
+    spec:
+      containers:
+      - name: angular-counter-app
+        image: my-angular-app
+        ports:
+        - containerPort: 4200
