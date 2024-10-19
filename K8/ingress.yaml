@@ -1,20 +1,20 @@
-# ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: angular-app-ingress
-  namespace: tush-dev-namespace
+  namespace: dev
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-  - host: localhost
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: angular-counter-service
-            port:
-              number: 80
+    - host: ""  # No domain, all traffic to the IP will be directed here
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: angular-counter-app
+                port:
+                  number: 32000

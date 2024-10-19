@@ -1,11 +1,15 @@
-# deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: angular-counter-app
-  namespace: tush-dev-namespace
+  namespace: dev-namespace
 spec:
-  replicas: 2
+  replicas: 2   
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1   # How many Pods can be unavailable during the update
+      maxSurge: 1         # How many extra Pods can be added during the update
   selector:
     matchLabels:
       app: angular-counter-app
@@ -16,6 +20,7 @@ spec:
     spec:
       containers:
       - name: angular-counter-app
-        image: my-angular-app
+        image: 106811596273.dkr.ecr.us-east-1.amazonaws.com/build-images/my-images:{{IMAGE_TAG}}
+        imagePullPolicy: always
         ports:
         - containerPort: 4200
